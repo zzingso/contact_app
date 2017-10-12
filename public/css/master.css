@@ -4,7 +4,12 @@
   color: tomato;
 }
 
-.contact .contact-form label {
+.contact .contact-form label,
+.contact-show label {
   display: inline-block;
   width: 50px;
+}
+
+.contact .contact-menu form {
+  display: inline-block;
 }

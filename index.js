@@ -1,6 +1,7 @@
 var express = require("express");
 var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
+var methodOverride = require("method-override");
 var app = express();
 
 //DB settings
@@ -24,6 +25,7 @@ app.set("view engine", "ejs");
 app.use(express.static(__dirname+"/public"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(methodOverride("_method"));
 
 //DB schema
 var contactSchema = mongoose.Schema({
@@ -56,6 +58,38 @@ app.get("/contacts/new", function(request, response){
 //Contacts - Create
 app.post("/contacts", function(request, response){
   Contact.create(request.body, function(err, contact){
+    if(err) return response.json(err);
+    response.redirect("/contacts");
+  });
+});
+
+//Contacts - show
+app.get("/contacts/:id", function(request, response){
+  Contact.findOne({_id:request.params.id}, function(err, contact){
+    if(err) return response.json(err);
+    response.render("contacts/show", {contact:contact});
+  });
+});
+
+//Contacts - edit
+app.get("/contacts/:id/edit", function(request, response){
+  Contact.findOne({_id:request.params.id}, function(err, contact){
+    if(err) return response.json(err);
+    response.render("contacts/edit", {contact:contact});
+  });
+});
+
+//Contacts - update
+app.put("/contacts/:id", function(request, response){
+  Contact.findOneAndUpdate({_id:request.params.id}, request.body, function(err, contact){
+    if(err) return response.json(err);
+    response.redirect("/contacts/" + request.params.id);
+  });
+});
+
+//Contacts - destroy
+app.delete("/contacts/:id", function(request, response){
+  Contact.remove({_id:request.params.id}, function(err, contact){
     if(err) return response.json(err);
     response.redirect("/contacts");
   });
