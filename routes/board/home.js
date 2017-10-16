@@ -1,11 +1,15 @@
-//routes/contact/home.js
+//routes/board/home.js
 
 var express = require("express");
 var router = express.Router();
 
 //Home
 router.get("/", function(request, response){
-  response.redirect("/contact-home/contacts");
+  response.render("board/welcome");
+});
+
+router.get("/about", function(request, response){
+  response.render("board/about");
 });
 
 module.exports = router;

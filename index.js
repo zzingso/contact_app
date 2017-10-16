@@ -34,6 +34,10 @@ app.use("/", require("./routes/home"));
 app.use("/contact-home", require("./routes/contacts/home"));
 app.use("/contact-home/contacts", require("./routes/contacts/contacts"));
 
+//Routes - Board
+app.use("/board-home", require("./routes/board/home"));
+app.use("/board-home/posts", require("./routes/board/posts"));
+
 //Port setting
 app.listen(3000, function(){
   console.log("server on!");

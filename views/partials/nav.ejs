@@ -1,29 +1,23 @@
 <!-- views/partials/nav.ejs -->
 
-<!-- <nav class="navbar navbar-default">
-  <div class="container">
-    <div class="navbar-header">
-      <div class="navbar-brand">Contact Book</div>
-    </div>
-    <ul class="nav navbar-nav">
-      <li><a href="/contacts">Index</a></li>
-      <li><a href="/contacts/new">New</a></li>
-    </ul>
-  </div>
-</nav> -->
-
 <nav class="navbar navbar-default">
   <div class="container">
     <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
       <div class="navbar-brand"><a href="/">Nodejs Tutorial</a></div>
     </div>
-    <ul class="nav navbar-nav">
-      <li>
-        <a href="/contact-home">contacts</a>
-      </li>
-      <li>
-        <!-- <a href="/board/index">board</a> -->
-        <a href="#">board</a>
-    </ul>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li>
+          <a href="/contact-home">contacts</a>
+        </li>
+        <li>
+          <a href="/board-home">board</a>
+      </ul>
+    </div>
   </div>
 </nav>
