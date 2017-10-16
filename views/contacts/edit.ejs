@@ -10,10 +10,10 @@
 
   <div class="container contact contact-edit">
     <div class="contact-menu">
-      <a class="btn btn-default" href="/contacts/<%= contact._id %>">Back</a>
+      <a class="btn btn-default" href="/contact-home/contacts/<%= contact._id %>">Back</a>
     </div>
     <h2>Edit</h2>
-    <form action="/contacts/<%= contact._id %>?_method=put" class="contact-form" method="post">
+    <form action="/contact-home/contacts/<%= contact._id %>?_method=put" class="contact-form" method="post">
       <div class="form-group">
         <label for="name">Name</label>
         <input class="form-control" type="text" id="name" name="name" value="<%= contact.name %>">

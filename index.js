@@ -29,7 +29,10 @@ app.use(methodOverride("_method"));
 
 //Routes
 app.use("/", require("./routes/home"));
-app.use("/contacts", require("./routes/contacts"));
+
+//Routes - Contact
+app.use("/contact-home", require("./routes/contacts/home"));
+app.use("/contact-home/contacts", require("./routes/contacts/contacts"));
 
 //Port setting
 app.listen(3000, function(){

@@ -2,7 +2,7 @@
 
 var express = require("express");
 var router = express.Router();
-var Contact = require("../models/Contact");
+var Contact = require("../../models/Contact");
 
 //Contacts - Index
 router.get("/", function(request, response){
@@ -21,7 +21,7 @@ router.get("/new", function(request, response){
 router.post("/", function(request, response){
   Contact.create(request.body, function(err, contact){
     if(err) return response.json(err);
-    response.redirect("/contacts");
+    response.redirect("/contact-home/contacts");
   });
 });
 
@@ -45,7 +45,7 @@ router.get("/:id/edit", function(request, response){
 router.put("/:id", function(request, response){
   Contact.findOneAndUpdate({_id:request.params.id}, request.body, function(err, contact){
     if(err) return response.json(err);
-    response.redirect("/contacts/" + request.params.id);
+    response.redirect("/contact-home/contacts/" + request.params.id);
   });
 });
 
@@ -53,7 +53,7 @@ router.put("/:id", function(request, response){
 router.delete("/:id", function(request, response){
   Contact.remove({_id:request.params.id}, function(err, contact){
     if(err) return response.json(err);
-    response.redirect("/contacts");
+    response.redirect("/contact-home/contacts");
   });
 });
 

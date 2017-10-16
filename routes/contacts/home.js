@@ -5,7 +5,7 @@ var router = express.Router();
 
 //Home
 router.get("/", function(request, response){
-  response.render("index");
+  response.redirect("/contact-home/contacts");
 });
 
 module.exports = router;

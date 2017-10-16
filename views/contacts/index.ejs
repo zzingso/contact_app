@@ -11,12 +11,17 @@
   <div class="container contact contact-index">
     <h2>Index</h2>
     <ul class="list-group">
+        <!-- <li><a href="/contact-home /contacts">Index</a></li> -->
+        <li><a href="/contact-home/contacts/new">New</a></li>
+    </ul>
+    <ul class="list-group">
       <% contacts.forEach(function(contact) { %>
         <li class="list-group-item">
-          <a href="/contacts/<%= contact._id %>"><%= contact.name %></a>
+          <a href="/contact-home/contacts/<%= contact._id %>"><%= contact.name %></a>
         </li>
       <% }) %>
     </ul>
   </div>
+
 </body>
 </html>
