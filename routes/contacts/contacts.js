@@ -2,7 +2,8 @@
 
 var express = require("express");
 var router = express.Router();
-var Contact = require("../../models/Contact");
+var rootPath = require("rootpath")();
+var Contact = require("models/Contact");
 
 //Contacts - Index
 router.get("/", function(request, response){

@@ -37,6 +37,7 @@ app.use("/contact-home/contacts", require("./routes/contacts/contacts"));
 //Routes - Board
 app.use("/board-home", require("./routes/board/home"));
 app.use("/board-home/posts", require("./routes/board/posts"));
+app.use("/users", require("./routes/board/users"));
 
 //Port setting
 app.listen(3000, function(){

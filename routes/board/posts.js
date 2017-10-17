@@ -2,7 +2,8 @@
 
 var express = require("express");
 var router = express.Router();
-var Post = require("../../models/Post");
+var rootPath = require("rootpath")();
+var Post = require("models/Post");
 
 // Index
 router.get("/", function(request, response){
