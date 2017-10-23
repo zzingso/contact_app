@@ -17,13 +17,19 @@ router.get("/", function(request, response){
 
 // New
 router.get("/new", function(request, response) {
-  response.render("board/users/new", {user:{}});
+  var user = request.flash("user")[0] || {};
+  var errors = request.flash("errors")[0] || {};
+  response.render("board/users/new", {user:user, errors:errors});
 });
 
 // create
 router.post("/", function(request, response){
   User.create(request.body, function(err, user){
-    if(err) return res.json(err);
+    if(err) {
+      request.flash("user", request.body);
+      request.flash("errors", parseError(err));
+      return response.redirect("/users/new");
+    }
     response.redirect("/users");
   });
 });
@@ -38,10 +44,16 @@ router.get("/:username", function(request, response) {
 
 // edit
 router.get("/:username/edit", function(request, response) {
-  User.findOne({username:request.params.username}, function(err, user){
-    if(err) return response.json(err);
-    response.render("board/users/edit",  {user:user});
-  });
+  var user = request.flash("user")[0];
+  var errors = request.flash("errors")[0] || {};
+  if(!user) {
+    User.findOne({username:request.params.username}, function(err, user){
+      if(err) return response.json(err);
+      response.render("board/users/edit",  {username:request.params.username, user:user, errors:errors});
+    });
+  } else {
+    response.render("board/users/edit", {username:request.params.username, user:user, errors:errors});
+  }
 });
 
 // update
@@ -60,10 +72,30 @@ router.put("/:username", function(request, response) {
 
     //save updated user
     user.save(function(err, user) {
-      if(err) response.json(err);
-      response.redirect("/users/" + request.params.username);
+      if(err) {
+        request.flash("user", request.body);
+        request.flash("errors", parseError(err));
+        return response.redirect("/users/" + request.params.username+"/edit");
+    }
+    response.redirect("/users/"+user.username);
     });
   });
 });
 
 module.exports = router;
+
+//Functions
+function parseError(errors){
+  var parsed = {};
+  if(errors.name == 'ValidationError') {
+    for(var name in errors.errors) {
+      var validationError = errors.errors[name];
+      parsed[name] = {message:validationError.message};
+    }
+  } else if(errors.code == "11000" && errors.errmsg.indexOf("username") > 0) {
+    parsed.username = {message:"This username already exists!"};
+  } else {
+    parsed.unhandled = JSON.stringify(errors);
+  }
+  return parsed;
+}
