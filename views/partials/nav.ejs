@@ -17,10 +17,17 @@
         </li>
         <li>
           <a href="/board-home">board</a>
+        </li>
       </ul>
       <ul class="nav navbar-nav navbar-right"> <!-- 1 -->
-       <li><a href="/users">Users</a></li>
-       <li><a href="/users/new">Sign Up</a></li>
+       <% if(isAuthenticated){ %>
+          <li><a href="/users/<%= currentUser.username %>">My Account</a></li>
+          <li><a href="/board-home/logout">Logout</a></li>
+       <% } else { %>
+          <li><a href="/users/new">Sign Up</a></li>
+          <li><a href="/board-home/login">Login</a></li>
+       <% } %>
+         <li><a href="/users">userList</a></li>
       </ul>
     </div>
   </div>

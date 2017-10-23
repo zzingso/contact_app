@@ -24,7 +24,7 @@ var userSchema = mongoose.Schema({
   },
   email:{
     type:String,
-    match:[/^[a-zA-Z0-9._%+-]@[a-zA-Z]{2,}$/,"Should be a valid email address!"],
+    match:[/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/,"Should be a vaild email address!"],
     trim:true
   }
 },{
@@ -52,33 +52,33 @@ userSchema.virtual("newPassword")
 var passwordRegex = /^(?=.*[A-Za-z])(?=.*d)[A-Za-zd]{8,16}$/;
 var passwordRegexErrorMessage = "Should be minimum 8 characters of alphabet and number combination!";
 userSchema.path("password").validate(function(v){
-  var user = this;
+var user = this;
 
-  // create user
-  if(user.isNew) {
-    if(!user.passwordConfirmation) {
-      user.invalidate("passwordConfirmation", "Password Conofirmation is required!");
-    }
-    if(!passwordRegex.test(user.password)){
-      user.invalidate("password", passwordRegexErrorMessage);
-    } else if(user.password !== user.passwordConfirmation) {
-      user.invalidate("passwordConfirmation", "Password Confirmation does not matched!");
-    }
+// create user
+if(user.isNew){
+  if(!user.passwordConfirmation){
+    user.invalidate("passwordConfirmation", "Password Confirmation is required!");
   }
+  if(!passwordRegex.test(user.password)){ // 2-3
+    user.invalidate("password", passwordRegexErrorMessage);
+  } else if(user.password !== user.passwordConfirmation) {
+    user.invalidate("passwordConfirmation", "Password Confirmation does not matched!");
+  }
+}
 
-  // update user
-  if(!user.isNew) {
-    if(!user.currentPassword) {
-      user.invalidate("currentPassword", "Current Password is required!");
-    }
-    if(user.currentPassword && !bcrypt.compareSync(user.currentPassword, user.originalPassword)) {
-      user.invalidate("currentPassword", "Current Password is invalid!");
-    }
-    if(user.newPassword && !passwordRegex.test(user.newPassword)){
-      user.invalidate("newPassword", passwordRegexErrorMessage);
-    } else if(user.newPassword !== user.passwordConfirmation) {
-      user.invalidate("passwordConfirmation", "Password Confirmation does not matched!");
-    }
+// update user
+if(!user.isNew){
+  if(!user.currentPassword){
+    user.invalidate("currentPassword", "Current Password is required!");
+  }
+  if(user.currentPassword && !user.authenticate(user.currentPassword, user.originalPassword)){
+    user.invalidate("currentPassword", "Current Password is invalid!");
+  }
+  if(user.newPassword && !passwordRegex.test(user.newPassword)){ // 2-3
+    user.invalidate("newPassword", passwordRegexErrorMessage);
+  } else if(user.newPassword !== user.passwordConfirmation) {
+    user.invalidate("passwordConfirmation", "Password Confirmation does not matched!");
+  }
   }
 });
 
