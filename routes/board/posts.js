@@ -4,7 +4,7 @@ var express = require("express");
 var router = express.Router();
 var rootPath = require("rootpath")();
 var Post = require("models/Post");
-var util = require("util");
+var util = require("../../util");
 
 // Index
 router.get("/", function(request, response){
@@ -45,7 +45,7 @@ router.get("/:id", function(request, response){
 
 // edit
 router.get("/:id/edit", function(request, response){
-  var post = request.flash("post")[0] || {};
+  var post = request.flash("post")[0];
   var errors = request.flash("errors")[0] || {};
   if(!post) {
     Post.findOne({_id:request.params.id}, function(err, post){
