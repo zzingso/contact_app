@@ -24,7 +24,8 @@
 
       <div class="row">
         <div class="col-sm-4 col-sm-push-8">
-          <div class="post-info">
+          <div class="post-info"
+            <div><span>Author</span> : <%= post.author ? post.author.username : "" %></div> <!-- 1 -->
             <div><span>Created</span> : <%= post.createdDate %> <%= post.createdTime %></div>
             <% if(post.updatedAt) { %>
               <div><span>Updated</span> : <%= post.updatedDate %> <%= post.updatedTime %></div>

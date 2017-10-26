@@ -121,7 +121,7 @@ form .form-group{
  color: darkseagreen;
 }
 
-.home-login{ 
+.home-login{
  max-width: 330px;
  font-family: 'Open Sans', sans-serif;
  font-size: 12px;
@@ -232,3 +232,24 @@ form .form-group{
  margin-top: 5px;
  margin-bottom: 11px;
 }
+
+/* ... */
+.ellipsis{ /* 1 */
+ display: block;
+ width: 100%;
+ white-space: nowrap;
+ overflow: hidden;
+ text-overflow: ellipsis;
+}
+/* ... */
+.post-index .posts{
+ border-top: 1px solid #ccc;
+ border-bottom: 1px solid #ccc;
+ table-layout: fixed; /* 2 */
+}
+/* ... */
+.post .posts .author{ /* 3 */
+ text-align: center;
+ width: 80px;
+}
+/* ... */

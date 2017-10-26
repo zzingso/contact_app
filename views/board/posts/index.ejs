@@ -19,6 +19,7 @@
       <thead>
         <tr>
           <th class="title">Title</th>
+          <th class="author">Author</th>
           <th class="date">Date</th>
         </tr>
       </thead>
@@ -31,7 +32,10 @@
         <% posts.forEach(function(post) { %>
           <tr>
             <td class="title">
-              <a href="/board-home/posts/<%= post.id %>"><div><%= post.title %></div></a>
+              <a href="/board-home/posts/<%= post._id %>"><div class="ellipsis"><%= post.title %></div></a> <!-- 3 -->
+            </td>
+            <td class="author"> <!-- 2 -->
+              <div class="ellipsis"><%= post.author ? post.author.username : "" %></div> <!-- 3 -->
             </td>
             <td class="date">
               <%= post.createdDate %>
