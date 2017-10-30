@@ -12,7 +12,9 @@
     <% include ../partials/header %>
 
     <div class="buttons">
-      <a href="/board-home/posts/new" class="btn btn-default">New</a>
+      <% if(isAuthenticated){ %>
+        <a href="/board-home/posts/new" class="btn btn-default">New</a>
+      <% } %>
     </div>
 
     <table class="table table-striped posts">

@@ -18,14 +18,14 @@ router.get("/", function(request, response){
 });
 
 // New
-router.get("/new", function(request, response){
+router.get("/new", util.isLoggerdin, function(request, response){
   var post = request.flash("post")[0] || {};
   var errors = request.flash("errors")[0] || {};
   response.render("board/posts/new", { post:post, errors:errors });
 });
 
 // create
-router.post("/", function(request, response){
+router.post("/", util.isLoggerdin, function(request, response){
   request.body.author = request.user._id;
   Post.create(request.body, function(err, post){
     if(err) {
@@ -48,7 +48,7 @@ router.get("/:id", function(request, response){
 });
 
 // edit
-router.get("/:id/edit", function(request, response){
+router.get("/:id/edit", util.isLoggerdin, checkPermission, function(request, response){
   var post = request.flash("post")[0];
   var errors = request.flash("errors")[0] || {};
   if(!post) {
@@ -63,7 +63,7 @@ router.get("/:id/edit", function(request, response){
 });
 
 // update
-router.put("/:id", function(request, response){
+router.put("/:id", util.isLoggerdin, checkPermission, function(request, response){
   request.body.updatedAt = Date.now();
   Post.findOneAndUpdate({_id:request.params.id}, request.body, {runValidators:true}, function(err, post){
     if(err) {
@@ -76,7 +76,7 @@ router.put("/:id", function(request, response){
 });
 
 // destory
-router.delete("/:id", function(request, response){
+router.delete("/:id", util.isLoggerdin, checkPermission, function(request, response){
   Post.remove({_id:request.params.id}, function(err){
     if(err) return response.json(err);
     response.redirect("/board-home/posts");
@@ -84,3 +84,13 @@ router.delete("/:id", function(request, response){
 });
 
 module.exports = router;
+
+// private functions
+function checkPermission(request, response, next) {
+  Post.findOne({_id:request.params.id}, function(err, post){
+    if(err) return response.json(err);
+    if(post.author != request.user.id) return util.noPermission(request, response);
+
+    next();
+  });
+}

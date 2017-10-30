@@ -27,6 +27,21 @@ util.getTime = function(dateObj){
   return get2digits(dateObj.getHours()) + ":" + get2digits(dateObj.getMinutes())+ ":" + get2digits(dateObj.getSeconds());
 };
 
+util.isLoggerdin = function(request, response, next) {
+  if(request.isAuthenticated()) {
+    next();
+  } else {
+    request.flash("errors", {login:"Please login first"});
+    response.redirect("/board-home/login");
+  }
+};
+
+util.noPermission = function(request, response) {
+  request.flash("errors", {login:"You don't have permission"});
+  request.logout();
+  response.redirect("/board-home/login");
+};
+
 module.exports = util;
 
 // private functions
